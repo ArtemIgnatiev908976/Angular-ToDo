@@ -1,4 +1,6 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnInit} from '@angular/core';
+import {DataHandlerService} from "../../service/data-handler.service";
+import {Category} from "../../model/Category";
 
 @Component({
   selector: 'app-categories',
@@ -7,9 +9,17 @@ import { Component, OnInit } from '@angular/core';
 })
 export class CategoriesComponent implements OnInit {
 
-  constructor() { }
+  categories: Category[];
 
-  ngOnInit(): void {
+  constructor(private dataHandler: DataHandlerService) {
   }
+
+
+  //Метод вызывается после инициализации компонента
+  ngOnInit(): void {
+    this.categories = this.dataHandler.getCategories()
+    console.log(this.categories)
+  }
+//Метод вызывается после инициализации компонента
 
 }
