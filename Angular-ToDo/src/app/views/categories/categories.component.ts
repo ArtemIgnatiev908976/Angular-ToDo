@@ -22,4 +22,7 @@ export class CategoriesComponent implements OnInit {
   }
 //Метод вызывается после инициализации компонента
 
+  showTasksByCategory(category: Category) {
+    this.dataHandler.getTasksByCategory(category)
+  }
 }
