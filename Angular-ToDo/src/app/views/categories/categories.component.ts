@@ -10,6 +10,7 @@ import {Category} from "../../model/Category";
 export class CategoriesComponent implements OnInit {
 
   categories: Category[];
+  selectedCategory: Category;
 
   constructor(private dataHandler: DataHandlerService) {
   }
@@ -23,6 +24,7 @@ export class CategoriesComponent implements OnInit {
 //Метод вызывается после инициализации компонента
 
   showTasksByCategory(category: Category) {
+    this.selectedCategory = category;
     this.dataHandler.fillTasksByCategory(category)
   }
 }
