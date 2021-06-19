@@ -1,7 +1,8 @@
-.completed{
-  text-decoration: line-through;
-  color: #797979
+.completed {
+    text-decoration: line-through;
+    color: #797979;
 }
-.novalue{
-  color: #b7b7b7
+
+.novalue {
+    color: #b7b7b7;
 }

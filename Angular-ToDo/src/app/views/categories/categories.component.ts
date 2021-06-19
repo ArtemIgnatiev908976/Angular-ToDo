@@ -3,28 +3,27 @@ import {DataHandlerService} from "../../service/data-handler.service";
 import {Category} from "../../model/Category";
 
 @Component({
-  selector: 'app-categories',
-  templateUrl: './categories.component.html',
-  styleUrls: ['./categories.component.css']
+    selector: 'app-categories',
+    templateUrl: './categories.component.html',
+    styleUrls: ['./categories.component.css']
 })
 export class CategoriesComponent implements OnInit {
 
-  categories: Category[];
-  selectedCategory: Category;
+    categories: Category[];
 
-  constructor(private dataHandler: DataHandlerService) {
-  }
+    selectedCategory: Category;
+
+    constructor(private dataHandler: DataHandlerService) {
+    }
+
+    // метод вызывается автоматически после инициализации компонента
+    ngOnInit() {
+        this.dataHandler.categoriesSubject.subscribe(categories => this.categories = categories);
+    }
 
 
-  //Метод вызывается после инициализации компонента
-  ngOnInit(): void {
-    this.dataHandler.categoriesSubject.subscribe(categories => this.categories = categories)
-    console.log(this.categories)
-  }
-//Метод вызывается после инициализации компонента
-
-  showTasksByCategory(category: Category) {
-    this.selectedCategory = category;
-    this.dataHandler.fillTasksByCategory(category)
-  }
+    showTasksByCategory(category: Category) {
+        this.selectedCategory = category;
+        this.dataHandler.fillTasksByCategory(category);
+    }
 }
