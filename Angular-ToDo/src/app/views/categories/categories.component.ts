@@ -27,7 +27,7 @@ export class CategoriesComponent implements OnInit {
   }
 
 
-  showTasksByCategory(category: Category) {
+  showTasksByCategory(category: Category): void {
 
     // если не изменилось значение, ничего не делать (чтобы лишний раз не делать запрос данных)
     if (this.selectedCategory === category) {
