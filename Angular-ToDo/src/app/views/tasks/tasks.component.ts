@@ -1,4 +1,4 @@
-import {AfterViewInit, Component, Input, OnInit, ViewChild} from '@angular/core';
+import {AfterViewInit, Component, EventEmitter, Input, OnInit, Output, ViewChild} from '@angular/core';
 import {DataHandlerService} from "../../service/data-handler.service";
 import {Task} from 'src/app/model/Task';
 import {MatTableDataSource} from "@angular/material/table";
@@ -14,14 +14,14 @@ export class TasksComponent implements OnInit {
 
 
   // поля для таблицы (те, что отображают данные из задачи - должны совпадать с названиями переменных класса)
- public displayedColumns: string[] = ['color', 'id', 'title', 'date', 'priority', 'category'];
+  public displayedColumns: string[] = ['color', 'id', 'title', 'date', 'priority', 'category'];
   public dataSource: MatTableDataSource<Task>; // контейнер - источник данных для таблицы
 
   // ссылки на компоненты таблицы
   @ViewChild(MatPaginator, {static: false}) private paginator: MatPaginator;
   @ViewChild(MatSort, {static: false}) private sort: MatSort;
 
-   tasks: Task[];
+  public tasks: Task[];
 
   // текущие задачи для отображения на странице
   @Input('tasks')
@@ -29,6 +29,9 @@ export class TasksComponent implements OnInit {
     this.tasks = tasks;
     this.fillTable();
   }
+
+  @Output()
+  updateTask = new EventEmitter<Task>();
 
   constructor(private dataHandler: DataHandlerService) {
   }
@@ -48,7 +51,7 @@ export class TasksComponent implements OnInit {
   }
 
   // в зависимости от статуса задачи - вернуть цвет названия
-  public  getPriorityColor(task: Task) {
+  public getPriorityColor(task: Task) {
 
     // цвет завершенной задачи
     if (task.completed) {
@@ -103,5 +106,9 @@ export class TasksComponent implements OnInit {
   public addTableObjects() {
     this.dataSource.sort = this.sort; // компонент для сортировки данных (если необходимо)
     this.dataSource.paginator = this.paginator; // обновить компонент постраничности (кол-во записей, страниц)
+  }
+
+  public onClickTask(task: Task) {
+    this.updateTask.emit(task);
   }
 }
