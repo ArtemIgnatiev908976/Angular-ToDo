@@ -14,17 +14,21 @@ export class TasksComponent implements OnInit {
 
 
   // поля для таблицы (те, что отображают данные из задачи - должны совпадать с названиями переменных класса)
-  public displayedColumns: string[] = ['color', 'id', 'title', 'date', 'priority', 'category'];
+ public displayedColumns: string[] = ['color', 'id', 'title', 'date', 'priority', 'category'];
   public dataSource: MatTableDataSource<Task>; // контейнер - источник данных для таблицы
 
   // ссылки на компоненты таблицы
   @ViewChild(MatPaginator, {static: false}) private paginator: MatPaginator;
   @ViewChild(MatSort, {static: false}) private sort: MatSort;
 
+   tasks: Task[];
 
   // текущие задачи для отображения на странице
-  @Input()
-  public tasks: Task[]; // напрямую не присваиваем значения в переменную, только через @Input
+  @Input('tasks')
+  public set setTasks(tasks: Task[]) { // напрямую не присваиваем значения в переменную, только через @Input
+    this.tasks = tasks;
+    this.fillTable();
+  }
 
   constructor(private dataHandler: DataHandlerService) {
   }
@@ -44,7 +48,7 @@ export class TasksComponent implements OnInit {
   }
 
   // в зависимости от статуса задачи - вернуть цвет названия
-  public getPriorityColor(task: Task) {
+  public  getPriorityColor(task: Task) {
 
     // цвет завершенной задачи
     if (task.completed) {
@@ -60,7 +64,11 @@ export class TasksComponent implements OnInit {
   }
 
   // показывает задачи с применением всех текущий условий (категория, поиск, фильтры и пр.)
-  private fillTable() {
+  public fillTable() {
+
+    if (!this.dataSource){
+      return;
+    }
 
     this.dataSource.data = this.tasks; // обновить источник данных (т.к. данные массива tasks обновились)
 
@@ -92,7 +100,7 @@ export class TasksComponent implements OnInit {
 
   }
 
-  private addTableObjects() {
+  public addTableObjects() {
     this.dataSource.sort = this.sort; // компонент для сортировки данных (если необходимо)
     this.dataSource.paginator = this.paginator; // обновить компонент постраничности (кол-во записей, страниц)
   }

@@ -4,6 +4,7 @@ import {Observable} from "rxjs";
 import {TaskDAOArray} from "../data/dao/impl/TaskDAOArray";
 import {Category} from "../model/Category";
 import {CategoryDAOArray} from "../data/dao/impl/CategoryDAOArray";
+import {Priority} from "../model/Priority";
 
 
 // класс реализовывает методы, которые нужны frontend'у, т.е. для удобной работы представлений
@@ -32,5 +33,9 @@ export class DataHandlerService {
     return this.categoryDaoArray.getAll();
   }
 
+  // поиск задач по параметрам
+  searchTasks(category: Category, searchText: string, status: boolean, priority: Priority): Observable<Task[]> {
+    return this.taskDaoArray.search(category, searchText, status, priority);
+  }
 
 }
