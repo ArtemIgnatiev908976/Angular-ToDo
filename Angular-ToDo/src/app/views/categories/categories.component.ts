@@ -1,4 +1,4 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, Input, OnInit} from '@angular/core';
 import {DataHandlerService} from "../../service/data-handler.service";
 import {Category} from "../../model/Category";
 
@@ -8,7 +8,7 @@ import {Category} from "../../model/Category";
     styleUrls: ['./categories.component.css']
 })
 export class CategoriesComponent implements OnInit {
-
+    @Input()
     categories: Category[];
 
     selectedCategory: Category;
@@ -18,7 +18,7 @@ export class CategoriesComponent implements OnInit {
 
     // метод вызывается автоматически после инициализации компонента
     ngOnInit() {
-        this.dataHandler.getAllCategories().subscribe(categories => this.categories = categories);
+        // this.dataHandler.getAllCategories().subscribe(categories => this.categories = categories);
     }
 
 
