@@ -1,5 +1,5 @@
 import {Component, Inject, OnInit} from '@angular/core';
-import {MAT_DIALOG_DATA } from '@angular/material/dialog';
+import {MAT_DIALOG_DATA} from '@angular/material/dialog';
 import {MatDialogRef} from '@angular/material/dialog'
 import {Task} from '../../model/Task';
 import {Priority} from '../../model/Priority';
@@ -21,18 +21,18 @@ export class EditTaskDialogComponent implements OnInit {
   priorities: Priority[];
 
 
-   dialogTitle: string; // заголовок окна
+  dialogTitle: string; // заголовок окна
   public task: Task; // задача для редактирования/создания
 
   // сохраняем все значения в отдельные переменные
   // чтобы изменения не сказывались на самой задаче и можно было отменить изменения
-   tmpTitle: string;
-   tmpCategory: Category;
-   tmpPriority: Priority;
-   tmpDate: Date;
+  tmpTitle: string;
+  tmpCategory: Category;
+  tmpPriority: Priority;
+  tmpDate: Date;
 
   constructor(
-   public  dialogRef: MatDialogRef<EditTaskDialogComponent>, // // для возможности работы с текущим диалог. окном
+    public dialogRef: MatDialogRef<EditTaskDialogComponent>, // // для возможности работы с текущим диалог. окном
     @Inject(MAT_DIALOG_DATA) private data: [Task, string], // данные, которые передали в диалоговое окно
     private dataHandler: DataHandlerService, // ссылка на сервис для работы с данными
     private dialog: MatDialog, // для открытия нового диалогового окна (из текущего) - например для подтверждения удаления
@@ -58,13 +58,13 @@ export class EditTaskDialogComponent implements OnInit {
   }
 
   // нажали ОК
-   onConfirm(): void {
+  onConfirm(): void {
 
     // считываем все значения для сохранения в поля задачи
     this.task.title = this.tmpTitle;
     this.task.category = this.tmpCategory;
     this.task.priority = this.tmpPriority;
-     this.task.date = this.tmpDate;
+    this.task.date = this.tmpDate;
 
 
     // передаем добавленную/измененную задачу в обработчик
@@ -98,14 +98,13 @@ export class EditTaskDialogComponent implements OnInit {
     });
   }
 
-  public complete(){
+  public complete() {
     this.dialogRef.close('complete');
   }
-  public activate(){
+
+  public activate() {
     this.dialogRef.close('activate');
   }
-
-
 
 
 }
