@@ -22,7 +22,7 @@ export class EditTaskDialogComponent implements OnInit {
 
 
    dialogTitle: string; // заголовок окна
-  private task: Task; // задача для редактирования/создания
+  public task: Task; // задача для редактирования/создания
 
   // сохраняем все значения в отдельные переменные
   // чтобы изменения не сказывались на самой задаче и можно было отменить изменения
@@ -96,6 +96,13 @@ export class EditTaskDialogComponent implements OnInit {
         this.dialogRef.close('delete'); // нажали удалить
       }
     });
+  }
+
+  public complete(){
+    this.dialogRef.close('complete');
+  }
+  public activate(){
+    this.dialogRef.close('activate');
   }
 
 
