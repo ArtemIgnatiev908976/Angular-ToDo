@@ -12,6 +12,11 @@ import {DataHandlerService} from '../../service/data-handler.service';
 // редактирование/создание задачи
 export class EditTaskDialogComponent implements OnInit {
 
+   dialogTitle: string; // заголовок окна
+   task: Task; // задача для редактирования/создания
+
+
+
   constructor(
       private dialogRef: MatDialogRef<EditTaskDialogComponent>, // для возможности работы с текущим диалог. окном
       @Inject(MAT_DIALOG_DATA) private data: [Task, string], // данные, которые передали в диалоговое окно
@@ -19,9 +24,6 @@ export class EditTaskDialogComponent implements OnInit {
       private dialog: MatDialog, // для открытия нового диалогового окна (из текущего) - например для подтверждения удаления
   ) {
   }
-
-  private dialogTitle: string; // заголовок окна
-  private task: Task; // задача для редактирования/создания
 
 
 
