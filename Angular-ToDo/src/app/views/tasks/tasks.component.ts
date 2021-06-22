@@ -7,6 +7,7 @@ import {MatSort} from "@angular/material/sort";
 import {EditTaskDialogComponent} from "../../dialog/edit-task-dialog/edit-task-dialog.component";
 import {MatDialog} from "@angular/material/dialog";
 import {ConfirmDialogComponent} from "../../dialog/confirm-dialog/confirm-dialog.component";
+import {Category} from "../../model/Category";
 
 
 @Component({
@@ -33,6 +34,10 @@ export class TasksComponent implements OnInit {
 
   @Output()
   updateTask = new EventEmitter<Task>();
+
+  @Output()
+  selectCategory = new EventEmitter<Category>();//нажали на категорию из писка задач
+
   public tasks: Task[];
 
   // текущие задачи для отображения на странице
@@ -179,6 +184,8 @@ export class TasksComponent implements OnInit {
     this.updateTask.emit(task);
   }
 
-
+  public onSelectCategory (category: Category){
+    this.selectCategory.emit(category);
+}
 
 }

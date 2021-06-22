@@ -14,7 +14,7 @@ export class AppComponent implements OnInit {
   tasks: Task[];
   categories: Category[];
 
-  private selectedCategory: Category = null;
+  public selectedCategory: Category = null;
 
 
   constructor(
