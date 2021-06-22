@@ -1,10 +1,13 @@
 import {Component, Inject, OnInit} from '@angular/core';
+import {MAT_DIALOG_DATA } from '@angular/material/dialog';
+import {MatDialogRef} from '@angular/material/dialog'
 import {Task} from '../../model/Task';
 import {Priority} from '../../model/Priority';
 import {Category} from '../../model/Category';
 import {DataHandlerService} from '../../service/data-handler.service';
-import {MAT_DIALOG_DATA } from '@angular/material/dialog';
-import {MatDialogRef} from '@angular/material/dialog'
+import {ConfirmDialogComponent} from "../confirm-dialog/confirm-dialog.component";
+import {MatDialog} from "@angular/material/dialog";
+
 @Component({
   selector: 'app-edit-task-dialog',
   templateUrl: './edit-task-dialog.component.html',
@@ -17,6 +20,7 @@ export class EditTaskDialogComponent implements OnInit {
   categories: Category[];
   priorities: Priority[];
 
+
    dialogTitle: string; // заголовок окна
   private task: Task; // задача для редактирования/создания
 
@@ -28,9 +32,11 @@ export class EditTaskDialogComponent implements OnInit {
 
 
   constructor(
-    private dialogRef: MatDialogRef<EditTaskDialogComponent>, // // для возможности работы с текущим диалог. окном
+   public  dialogRef: MatDialogRef<EditTaskDialogComponent>, // // для возможности работы с текущим диалог. окном
     @Inject(MAT_DIALOG_DATA) private data: [Task, string], // данные, которые передали в диалоговое окно
-    private dataHandler: DataHandlerService // ссылка на сервис для работы с данными
+    private dataHandler: DataHandlerService, // ссылка на сервис для работы с данными
+    private dialog: MatDialog, // для открытия нового диалогового окна (из текущего) - например для подтверждения удаления
+
   ) {
   }
 
@@ -68,9 +74,31 @@ export class EditTaskDialogComponent implements OnInit {
   }
 
   // нажали отмену (ничего не сохраняем и закрываем окно)
-  onCancel(): void {
+  public onCancel(): void {
     this.dialogRef.close(null);
   }
+
+
+  // нажали Удалить
+  public delete() {
+
+    const dialogRef = this.dialog.open(ConfirmDialogComponent, {
+      maxWidth: '500px',
+      data: {
+        dialogTitle: 'Подтвердите действие',
+        message: `Вы действительно хотите удалить задачу: "${this.task.title}"?`
+      },
+      autoFocus: false
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      if (result) {
+        this.dialogRef.close('delete'); // нажали удалить
+      }
+    });
+  }
+
+
 
 
 }
