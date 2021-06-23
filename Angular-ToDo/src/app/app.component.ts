@@ -10,11 +10,20 @@ import {Category} from "./model/Category";
 })
 export class AppComponent implements OnInit {
 
-  title = 'Todo';
-  tasks: Task[];
-  categories: Category[];
+
+  public title = 'Todo';
+  public tasks: Task[];
+  public categories: Category[]; // все категории
+
 
   public selectedCategory: Category = null;
+
+  // поиск
+  public searchTaskText = ''; // текущее значение для поиска задач
+
+  // фильтрация
+  public statusFilter: boolean;
+
 
 
   constructor(
@@ -31,19 +40,13 @@ export class AppComponent implements OnInit {
   }
 
 
+
   // изменение категории
   public onSelectCategory(category: Category) {
 
     this.selectedCategory = category;
 
-    this.dataHandler.searchTasks(
-      this.selectedCategory,
-      null,
-      null,
-      null
-    ).subscribe(tasks => {
-      this.tasks = tasks;
-    });
+    this.updateTasks();
 
   }
 
@@ -94,6 +97,33 @@ export class AppComponent implements OnInit {
       this.onSelectCategory(this.selectedCategory);
     });
   }
+
+
+
+  // поиск задач
+  public onSearchTasks(searchString: string) {
+    this.searchTaskText = searchString;
+    this.updateTasks();
+  }
+
+  // фильтрация задач по статусу (все, решенные, нерешенные)
+  public onFilterTasksByStatus(status: boolean) {
+    this.statusFilter = status;
+    this.updateTasks();
+  }
+
+
+  public updateTasks() {
+    this.dataHandler.searchTasks(
+      this.selectedCategory,
+      this.searchTaskText,
+      this.statusFilter,
+      null
+    ).subscribe((tasks: Task[]) => {
+      this.tasks = tasks;
+    });
+  }
+
 
 
 }

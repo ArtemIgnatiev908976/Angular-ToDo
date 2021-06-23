@@ -91,6 +91,8 @@
                           (deleteTask)="onDeleteTask($event)"
                           (updateTask)="onUpdateTask($event) "
                           (selectCategory)="onSelectCategory($event)"
+                          (filterByStatus)="onFilterTasksByStatus($event)"
+                          (filterByTitle)="onSearchTasks($event)"
                           [tasks]="tasks"
                         >
 
