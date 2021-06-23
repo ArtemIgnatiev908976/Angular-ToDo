@@ -8,6 +8,7 @@ import {EditTaskDialogComponent} from "../../dialog/edit-task-dialog/edit-task-d
 import {MatDialog} from "@angular/material/dialog";
 import {ConfirmDialogComponent} from "../../dialog/confirm-dialog/confirm-dialog.component";
 import {Category} from "../../model/Category";
+import {Priority} from "../../model/Priority";
 
 @Component({
   selector: 'app-tasks',
@@ -15,9 +16,6 @@ import {Category} from "../../model/Category";
   styleUrls: ['./tasks.component.css']
 })
 export class TasksComponent implements OnInit {
-
-  // поля для таблицы (те, что отображают данные из задачи - должны совпадать с названиями переменных класса)
-  public displayedColumns: string[] = ['color', 'id', 'title', 'date', 'priority', 'category', 'operations', 'select'];
 
 
   @Output()
@@ -41,15 +39,20 @@ export class TasksComponent implements OnInit {
   @Output()
   filterByStatus = new EventEmitter<boolean>();
 
-
+  @Output()
+  filterByPriority = new EventEmitter<Priority>();
 
   // поиск
   public searchTaskText: string; // текущее значение для поиска задач
   public selectedStatusFilter: boolean = null;   // по-умолчанию будут показываться задачи по всем статусам (решенные и нерешенные)
+  public selectedPriorityFilter: Priority = null;   // по-умолчанию будут показываться задачи по всем приоритетам
 
 
 
+  // поля для таблицы (те, что отображают данные из задачи - должны совпадать с названиями переменных класса)
+  public displayedColumns: string[] = ['color', 'id', 'title', 'date', 'priority', 'category', 'operations', 'select'];
 
+  public priorities: Priority[]; // список приоритетов (для фильтрации задач)
   public tasks: Task[];
 
   // текущие задачи для отображения на странице
@@ -59,7 +62,10 @@ export class TasksComponent implements OnInit {
     this.fillTable();
   }
 
-
+  @Input('priorities')
+  set setPriorities(priorities: Priority[]) {
+    this.priorities = priorities;
+  }
 
   constructor(
     private dataHandler: DataHandlerService, // доступ к данным
@@ -220,6 +226,15 @@ export class TasksComponent implements OnInit {
   }
 
 
+  // фильтрация по приоритету
+  public onFilterByPriority(value: Priority) {
+
+    // на всякий случай проверяем изменилось ли значение (хотя сам UI компонент должен это делать)
+    if (value !== this.selectedPriorityFilter) {
+      this.selectedPriorityFilter = value;
+      this.filterByPriority.emit(this.selectedPriorityFilter);
+    }
+  }
 
 
 }

@@ -2,6 +2,7 @@ import {Component, OnInit} from '@angular/core';
 import {DataHandlerService} from "./service/data-handler.service";
 import {Task} from './model/Task';
 import {Category} from "./model/Category";
+import {Priority} from "./model/Priority";
 
 @Component({
   selector: 'app-root',
@@ -10,10 +11,10 @@ import {Category} from "./model/Category";
 })
 export class AppComponent implements OnInit {
 
-
   public title = 'Todo';
   public tasks: Task[];
   public categories: Category[]; // все категории
+  public priorities: Priority[]; // все приоритеты
 
 
   public selectedCategory: Category = null;
@@ -22,8 +23,8 @@ export class AppComponent implements OnInit {
   public searchTaskText = ''; // текущее значение для поиска задач
 
   // фильтрация
-  public statusFilter: boolean;
-
+  private priorityFilter: Priority;
+  private statusFilter: boolean;
 
 
   constructor(
@@ -32,7 +33,7 @@ export class AppComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    // this.dataHandler.getAllTasks().subscribe(tasks => this.tasks = tasks);
+    this.dataHandler.getAllPriorities().subscribe(priorities => this.priorities = priorities);
     this.dataHandler.getAllCategories().subscribe(categories => this.categories = categories);
 
     this.onSelectCategory(null); // показать все задачи
@@ -40,48 +41,40 @@ export class AppComponent implements OnInit {
   }
 
 
-
   // изменение категории
   public onSelectCategory(category: Category) {
 
     this.selectedCategory = category;
 
-    this.updateTasks();
+    this.dataHandler.searchTasks(
+      this.selectedCategory,
+      null,
+      null,
+      null
+    ).subscribe(tasks => {
+      this.tasks = tasks;
+    });
 
   }
+
+
+
 
   // обновление задачи
   public onUpdateTask(task: Task) {
 
-    this.dataHandler.updateTask(task).subscribe(() => {
-      this.dataHandler.searchTasks(
-        this.selectedCategory,
-        null,
-        null,
-        null
-      ).subscribe(tasks => {
-        this.tasks = tasks;
-      });
-    });
+    this.updateTasks();
 
   }
 
   // удаление задачи
   public onDeleteTask(task: Task) {
 
-    this.dataHandler.deleteTask(task.id).subscribe(() => {
-      this.dataHandler.searchTasks(
-        this.selectedCategory,
-        null,
-        null,
-        null
-      ).subscribe(tasks => {
-        this.tasks = tasks;
-      });
+    this.dataHandler.deleteTask(task.id).subscribe(cat => {
+      this.updateTasks()
     });
-
-
   }
+
 
   // удаление категории
   public onDeleteCategory(category: Category) {
@@ -99,7 +92,6 @@ export class AppComponent implements OnInit {
   }
 
 
-
   // поиск задач
   public onSearchTasks(searchString: string) {
     this.searchTaskText = searchString;
@@ -112,18 +104,21 @@ export class AppComponent implements OnInit {
     this.updateTasks();
   }
 
+  // фильтрация задач по приоритету
+  public onFilterTasksByPriority(priority: Priority) {
+    this.priorityFilter = priority;
+    this.updateTasks();
+  }
 
-  public updateTasks() {
+  private updateTasks() {
     this.dataHandler.searchTasks(
       this.selectedCategory,
       this.searchTaskText,
       this.statusFilter,
-      null
+      this.priorityFilter
     ).subscribe((tasks: Task[]) => {
       this.tasks = tasks;
     });
   }
-
-
 
 }

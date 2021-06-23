@@ -9,26 +9,26 @@
       <input
         #filterInput
 
-        (keydown.escape)="searchTaskText = ''; onFilterByTitle()"
+        matInput
 
-        (keyup)="onFilterByTitle()"
+        placeholder="Поиск в текущей категории"
 
         [(ngModel)]="searchTaskText"
 
-        matInput
-        placeholder="Поиск в текущей категории"
+        (keyup)="onFilterByTitle()"
+        (keydown.escape)="searchTaskText = ''; onFilterByTitle()"
 
       >
 
       <button
-        (click)="searchTaskText = ''; onFilterByTitle()"
-
         *ngIf="filterInput.value.trim().length > 0"
 
-        aria-label="Clear" class="clear-icon size25 gray" mat-button
-        mat-icon-button
+        class="clear-icon size25 gray"
 
-        matSuffix
+        matSuffix mat-icon-button mat-button
+        aria-label="Clear"
+
+        (click)="searchTaskText = ''; onFilterByTitle()"
       >
         <mat-icon>clear</mat-icon>
       </button>
@@ -40,20 +40,20 @@
     <!--    фильтр по статусу -->
 
     <mat-form-field>
-      <mat-select #statusFilter (valueChange)="onFilterByStatus($event)"
-                  [value]="selectedStatusFilter" placeholder="Фильтр по статусу">
+      <mat-select [value]="selectedStatusFilter" (valueChange)="onFilterByStatus($event)"
+                  placeholder="Фильтр по статусу" #statusFilter>
         <mat-option [value]="null">Все статусы</mat-option>
         <mat-option [value]="true">Завершенные задачи</mat-option>
         <mat-option [value]="false">Незавершенные задачи</mat-option>
       </mat-select>
       <button
-        (click)="$event.stopPropagation(); onFilterByStatus(null)"
         *ngIf="selectedStatusFilter != null"
+        class="clear-icon size25 gray"
 
-        aria-label="Clear" class="clear-icon size25 gray" mat-button
-        mat-icon-button
+        matSuffix mat-icon-button mat-button
+        aria-label="Clear"
 
-        matSuffix
+        (click)="$event.stopPropagation(); onFilterByStatus(null)"
 
       >
         <mat-icon>clear</mat-icon>
@@ -65,6 +65,31 @@
 
   <div class="col-md-3 col-sm-12">
 
+    <!--    фильтр по приоритету -->
+
+    <mat-form-field>
+
+      <mat-select [value]="selectedPriorityFilter" (valueChange)="onFilterByPriority($event)"
+                  placeholder="Фильтр по приоритетам">
+        <mat-option [value]="null">Все приоритеты</mat-option>
+        <mat-option *ngFor="let priority of priorities" [value]="priority">{{priority.title}}</mat-option>
+
+      </mat-select>
+
+      <button
+        *ngIf="selectedPriorityFilter != null"
+        class="clear-icon size25 gray"
+
+        matSuffix mat-icon-button mat-button
+        aria-label="Clear"
+
+        (click)="$event.stopPropagation(); onFilterByPriority(null); "
+
+      >
+        <mat-icon>clear</mat-icon>
+      </button>
+
+    </mat-form-field>
 
 
   </div>
@@ -76,14 +101,13 @@
 
         <button
 
-          (click)="$event.stopPropagation(); onFilterByStatus(null);  searchTaskText = ''; onFilterByTitle()"
+          *ngIf="selectedStatusFilter != null || selectedPriorityFilter != null || (searchTaskText != null && searchTaskText.trim() != '') "
 
-          *ngIf="selectedStatusFilter != null ||  (searchTaskText != null && searchTaskText.trim() != '') "
+          matSuffix mat-button
           aria-label="Clear"
-          mat-button
 
 
-          matSuffix
+          (click)="$event.stopPropagation(); onFilterByStatus(null); onFilterByPriority(null); searchTaskText = ''; onFilterByTitle()"
 
         >
           Сбросить фильтры
@@ -92,7 +116,7 @@
       </div>
 
       <div class="text-right col-6">
-        <button color="primary" mat-raised-button>Добавить</button>
+        <button mat-raised-button color="primary">Добавить</button>
       </div>
     </div>
   </div>
@@ -156,9 +180,8 @@
           <!--приоритет-->
           <ng-container matColumnDef="priority">
             <th *matHeaderCellDef mat-header-cell mat-sort-header> Приоритет</th>
-            <td *matCellDef="let task"
+            <td *matCellDef="let task" class="col-priority"
                 [ngClass]="{'completed': task.completed, 'novalue': task.priority == null}"
-                class="col-priority"
                 mat-cell
             >
 
@@ -171,11 +194,10 @@
           <!--категория-->
           <ng-container matColumnDef="category">
             <th *matHeaderCellDef mat-header-cell mat-sort-header> Категория</th>
-            <td (click)="!task.completed && task.category && onSelectCategory(task.category)"
-                *matCellDef="let task"
-                [ngClass]="{'completed': task.completed, 'novalue': task.category == null, 'link': !task.completed && task.category}"
+            <td *matCellDef="let task" class="col-category"
+                (click)="!task.completed && task.category && onSelectCategory(task.category)"
 
-                class="col-category"
+                [ngClass]="{'completed': task.completed, 'novalue': task.category == null, 'link': !task.completed && task.category}"
 
 
                 mat-cell
