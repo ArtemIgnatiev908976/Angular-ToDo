@@ -2,6 +2,9 @@
 
     <app-categories
       (selectCategory)="onSelectCategory($event)"
+      (deleteCategory)="onDeleteCategory($event)"
+      (updateCategory)="onUpdateCategory($event)"
+
       [categories]="categories"
       [selectedCategory]="selectedCategory"> </app-categories>
 
