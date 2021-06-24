@@ -42,6 +42,9 @@ export class TasksComponent implements OnInit {
   @Output()
   filterByPriority = new EventEmitter<Priority>();
 
+  @Output()
+  addTask = new EventEmitter<Task>();
+
   // поиск
   public searchTaskText: string; // текущее значение для поиска задач
   public selectedStatusFilter: boolean = null;   // по-умолчанию будут показываться задачи по всем статусам (решенные и нерешенные)
@@ -66,6 +69,9 @@ export class TasksComponent implements OnInit {
   set setPriorities(priorities: Priority[]) {
     this.priorities = priorities;
   }
+  @Input()
+  selectedCategory: Category;
+
 
   constructor(
     private dataHandler: DataHandlerService, // доступ к данным
@@ -234,6 +240,23 @@ export class TasksComponent implements OnInit {
       this.selectedPriorityFilter = value;
       this.filterByPriority.emit(this.selectedPriorityFilter);
     }
+  }
+
+
+  // диалоговое окно для добавления задачи
+  public openAddTaskDialog() {
+
+    // то же самое, что и при редактировании, но только передаем пустой объект Task
+    const task = new Task(null, '', false, null, this.selectedCategory);
+
+    const dialogRef = this.dialog.open(EditTaskDialogComponent, {data: [task, 'Добавление задачи']});
+
+    dialogRef.afterClosed().subscribe(result => {
+      if (result) { // если нажали ОК и есть результат
+        this.addTask.emit(task);
+      }
+    });
+
   }
 
 

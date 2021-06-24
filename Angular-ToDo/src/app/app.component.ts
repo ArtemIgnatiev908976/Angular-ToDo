@@ -59,6 +59,23 @@ export class AppComponent implements OnInit {
 
 
 
+  // удаление категории
+  public onDeleteCategory(category: Category) {
+    this.dataHandler.deleteCategory(category.id).subscribe(cat => {
+      this.selectedCategory = null; // открываем категорию "Все"
+      this.onSelectCategory(this.selectedCategory);
+    });
+  }
+
+  // обновлении категории
+  public onUpdateCategory(category: Category) {
+    this.dataHandler.updateCategory(category).subscribe(() => {
+      this.onSelectCategory(this.selectedCategory);
+    });
+  }
+
+
+
 
   // обновление задачи
   public onUpdateTask(task: Task) {
@@ -76,20 +93,7 @@ export class AppComponent implements OnInit {
   }
 
 
-  // удаление категории
-  public onDeleteCategory(category: Category) {
-    this.dataHandler.deleteCategory(category.id).subscribe(cat => {
-      this.selectedCategory = null; // открываем категорию "Все"
-      this.onSelectCategory(this.selectedCategory);
-    });
-  }
 
-  // обновлении категории
-  public onUpdateCategory(category: Category) {
-    this.dataHandler.updateCategory(category).subscribe(() => {
-      this.onSelectCategory(this.selectedCategory);
-    });
-  }
 
 
   // поиск задач
@@ -119,6 +123,19 @@ export class AppComponent implements OnInit {
     ).subscribe((tasks: Task[]) => {
       this.tasks = tasks;
     });
+  }
+
+
+
+  // добавление задачи
+  public onAddTask(task: Task) {
+
+    this.dataHandler.addTask(task).subscribe(result => {
+
+      this.updateTasks();
+
+    });
+
   }
 
 }
