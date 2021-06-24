@@ -57,7 +57,7 @@
 
       </div>
 
-
+      <div *ngIf="categories.length === 0" ><p class="not-found">Ничего не найдено</p></div>
 
       <!-- виртуальная категория 'Все'-->
       <li (click)="showTasksByCategory(null)" [class.active]="selectedCategory === null"
