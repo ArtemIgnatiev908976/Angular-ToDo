@@ -5,11 +5,22 @@ import {TestData} from "../../TestData";
 
 export class CategoryDAOArray implements CategoryDAO {
 
-    add(T): Observable<Category> {
-        return undefined;
+  add(category: Category): Observable<Category> {
+
+    // если id пустой - генерируем его
+    if (category.id === null || category.id === 0) {
+      category.id = this.getLastIdCategory();
     }
 
+    TestData.categories.push(category);
 
+    return of(category);
+  }
+
+// находит последний id (чтобы потом вставить новую запись с id, увеличенным на 1) - в реальной БД это происходит автоматически
+  public getLastIdCategory(): number {
+    return Math.max.apply(Math, TestData.categories.map(c => c.id)) + 1;
+  }
 
     get(id: number): Observable<Category> {
         return undefined;

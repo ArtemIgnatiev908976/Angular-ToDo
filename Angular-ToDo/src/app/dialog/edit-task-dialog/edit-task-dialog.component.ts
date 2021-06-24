@@ -7,6 +7,7 @@ import {Category} from '../../model/Category';
 import {DataHandlerService} from '../../service/data-handler.service';
 import {ConfirmDialogComponent} from "../confirm-dialog/confirm-dialog.component";
 import {MatDialog} from "@angular/material/dialog";
+import {OperType} from "../OperType";
 
 @Component({
   selector: 'app-edit-task-dialog',
@@ -17,23 +18,23 @@ import {MatDialog} from "@angular/material/dialog";
 // редактирование/создание задачи
 export class EditTaskDialogComponent implements OnInit {
 
-  categories: Category[];
-  priorities: Priority[];
+  public  categories: Category[];
+  public  priorities: Priority[];
+  public tmpCategory: Category;
 
-
-  dialogTitle: string; // заголовок окна
+  public dialogTitle: string; // заголовок окна
   public task: Task; // задача для редактирования/создания
-
+  public operType: OperType;
   // сохраняем все значения в отдельные переменные
   // чтобы изменения не сказывались на самой задаче и можно было отменить изменения
   tmpTitle: string;
-  tmpCategory: Category;
+
   tmpPriority: Priority;
   tmpDate: Date;
 
   constructor(
     public dialogRef: MatDialogRef<EditTaskDialogComponent>, // // для возможности работы с текущим диалог. окном
-    @Inject(MAT_DIALOG_DATA) private data: [Task, string], // данные, которые передали в диалоговое окно
+    @Inject(MAT_DIALOG_DATA) private data: [Task, string, OperType], // данные, которые передали в диалоговое окно
     private dataHandler: DataHandlerService, // ссылка на сервис для работы с данными
     private dialog: MatDialog, // для открытия нового диалогового окна (из текущего) - например для подтверждения удаления
 
@@ -43,7 +44,7 @@ export class EditTaskDialogComponent implements OnInit {
   ngOnInit() {
     this.task = this.data[0]; // задача для редактирования/создания
     this.dialogTitle = this.data[1]; // текст для диалогового окна
-
+    this.operType = this.data[2]; // тип операции
 
     // инициализация начальных значений (записывам в отдельные переменные
     // чтобы можно было отменить изменения, а то будут сразу записываться в задачу)
@@ -106,5 +107,11 @@ export class EditTaskDialogComponent implements OnInit {
     this.dialogRef.close('activate');
   }
 
+  public canDelete(): boolean {
+    return this.operType === OperType.EDIT;
+  }
 
+ public canActivateDesactivate(): boolean {
+    return this.operType === OperType.EDIT;
+  }
 }
