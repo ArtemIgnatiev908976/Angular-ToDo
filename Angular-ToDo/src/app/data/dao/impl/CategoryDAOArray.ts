@@ -30,9 +30,6 @@ export class CategoryDAOArray implements CategoryDAO {
         return of (TestData.categories)
     }
 
-    search(title: string): Observable<Category[]> {
-        return undefined;
-    }
 
 
   delete(id: number): Observable<Category> {
@@ -61,6 +58,13 @@ export class CategoryDAOArray implements CategoryDAO {
   }
 
 
+  // поиск категорий по названию
+  search(title: string): Observable<Category[]> {
+
+    return of(TestData.categories.filter(
+      cat => cat.title.toUpperCase().includes(title.toUpperCase()))
+      .sort((c1, c2) => c1.title.localeCompare(c2.title)));
+  }
 
 
 
