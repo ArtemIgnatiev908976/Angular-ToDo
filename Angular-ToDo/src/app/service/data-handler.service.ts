@@ -1,11 +1,11 @@
 import {Injectable} from '@angular/core';
 import {Task} from '../model/Task';
 import {Observable} from "rxjs";
-import {TaskDAOArray} from "../data/dao/impl/TaskDAOArray";
+import {TaskDAOArray} from "../Data/dao/impl/TaskDAOArray";
 import {Category} from "../model/Category";
-import {CategoryDAOArray} from "../data/dao/impl/CategoryDAOArray";
+import {CategoryDAOArray} from "../Data/dao/impl/CategoryDAOArray";
 import {Priority} from "../model/Priority";
-import {PriorityDAOArray} from "../data/dao/impl/PriorityDAOArray";
+import {PriorityDAOArray} from "../Data/dao/impl/PriorityDAOArray";
 
 
 // класс реализовывает методы, которые нужны frontend'у, т.е. для удобной работы представлений

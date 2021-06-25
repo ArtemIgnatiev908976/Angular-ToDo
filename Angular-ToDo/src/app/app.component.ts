@@ -22,7 +22,8 @@ export class AppComponent implements OnInit {
   public completedCountInCategory: number;
   public uncompletedCountInCategory: number;
   public uncompletedTotalTasksCount: number;
-
+  // показать/скрыть статистику
+  public showStat = true;
 
 
   public selectedCategory: Category = null;
@@ -182,6 +183,9 @@ export class AppComponent implements OnInit {
         this.uncompletedTotalTasksCount = array[3]; // нужно для категории Все
       });
   }
-
+  // показать-скрыть статистику
+  public toggleStat(showStat: boolean) {
+    this.showStat = showStat;
+  }
 
 }

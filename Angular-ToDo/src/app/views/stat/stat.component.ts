@@ -23,6 +23,9 @@ export class StatComponent implements OnInit {
   uncompleteTasksInCategory: number; // кол-во нерешенных задач в категории
 
 
+  @Input()
+  showStat: boolean; // показать или скрыть статистику
+
 
 
   // -------------------------------------------------------------------------
