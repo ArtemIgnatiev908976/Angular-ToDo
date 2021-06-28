@@ -6,44 +6,38 @@
     (updateCategory)="onUpdateCategory($event)"
     (addCategory)="onAddCategory($event)"
     (searchCategory)="onSearchCategory($event)"
+    [categoryMap]="categoryMap"
 
 
     [selectedCategory]="selectedCategory"
-    [categories]="categories">
-
-
-  </app-categories>
+    [categories]="categories"></app-categories>
 
 
   <div class="main-panel">
 
-
-
-
-
-    <!-- Navbar -->
     <nav class="navbar navbar-expand-lg navbar-transparent navbar-absolute fixed-top ">
 
       <!--    навигация с шапкой и списком категорий-->
 
       <app-header
-        [categoryName]="selectedCategory ? selectedCategory.title: 'Все'"
         (toggleStat)="toggleStat($event)"
+        [categoryName]="selectedCategory ? selectedCategory.title: 'Все'"
         [showStat]="showStat"
 
       ></app-header>
 
     </nav>
-    <!-- End Navbar -->
+
     <div class="content">
       <div class="container-fluid">
 
+
         <!-- статистика -->
         <app-stat
-          [totalTasksInCategory]="totalTasksCountInCategory"
           [completeTasksInCategory]="completedCountInCategory"
-          [uncompleteTasksInCategory]="uncompletedCountInCategory"
           [showStat]="showStat"
+          [totalTasksInCategory]="totalTasksCountInCategory"
+          [uncompleteTasksInCategory]="uncompletedCountInCategory"
         ></app-stat>
 
         <div class="row">
@@ -56,11 +50,12 @@
               (selectCategory)="onSelectCategory($event)"
               (addTask)="onAddTask($event)"
 
-              (filterByTitle)="onSearchTasks($event)"
-              (filterByStatus)="onFilterTasksByStatus($event)"
-              (filterByPriority)="onFilterTasksByPriority($event)"
 
               [selectedCategory]="selectedCategory"
+              (filterByTitle)="onSearchTasks($event)"
+              (filterByPriority)="onFilterTasksByPriority($event)"
+              (filterByStatus)="onFilterTasksByStatus($event)"
+
               [tasks]="tasks"
               [priorities]="priorities"
 
@@ -73,6 +68,7 @@
 
 
     <app-footer></app-footer>
+
+
   </div>
 </div>
-

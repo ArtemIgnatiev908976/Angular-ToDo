@@ -3,7 +3,7 @@ import {DataHandlerService} from "../../service/data-handler.service";
 import {Category} from "../../model/Category";
 import {EditCategoryDialogComponent} from "../../dialog/edit-category-dialog/edit-category-dialog.component";
 import {MatDialog} from "@angular/material/dialog";
-import {OperType} from '../../dialog/OperType';
+import {OperType} from "../../dialog/OperType";
 
 @Component({
   selector: 'app-categories',
@@ -12,9 +12,20 @@ import {OperType} from '../../dialog/OperType';
 })
 export class CategoriesComponent implements OnInit {
 
-
   @Input()
   categories: Category[];
+
+  @Input()
+  selectedCategory: Category;
+
+  // категории с кол-вом активных задач для каждой из них
+  @Input('categoryMap')
+  set setCategoryMap(categoryMap: Map<Category, number>) {
+    this.selectedCategoryMap = categoryMap;
+  }
+
+
+
 
   // выбрали категорию из списка
   @Output()
@@ -28,9 +39,6 @@ export class CategoriesComponent implements OnInit {
   @Output()
   updateCategory = new EventEmitter<Category>();
 
-  @Input()
-  selectedCategory: Category;
-
   // добавили категорию
   @Output()
   addCategory = new EventEmitter<string>(); // передаем только название новой категории
@@ -40,14 +48,19 @@ export class CategoriesComponent implements OnInit {
   searchCategory = new EventEmitter<string>(); // передаем строку для поиска
 
 
-
   // для отображения иконки редактирования при наведении на категорию
   public indexMouseMove: number;
   public searchCategoryTitle: string; // текущее значение для поиска категорий
+
+  public selectedCategoryMap: Map<Category, number>; // список всех категорий и кол-во активных задач
+
+
   constructor(
     private dataHandler: DataHandlerService,
     private dialog: MatDialog, // внедряем MatDialog, чтобы работать с диалоговыми окнами
-    ) {
+
+
+  ) {
   }
 
   // метод вызывается автоматически после инициализации компонента
@@ -70,15 +83,15 @@ export class CategoriesComponent implements OnInit {
   }
 
   // сохраняет индекс записи категории, над который в данный момент проходит мышка (и там отображается иконка редактирования)
-  public showEditIcon(index: number) {
+  public showEditIcon(index: number): void {
     this.indexMouseMove = index;
 
   }
 
   // диалоговое окно для редактирования категории
-  public openEditDialog(category: Category) {
+  public openEditDialog(category: Category): void {
     const dialogRef = this.dialog.open(EditCategoryDialogComponent, {
-      data: [category.title, 'Редактирование категории',OperType.EDIT],
+      data: [category.title, 'Редактирование категории', OperType.EDIT],
       width: '400px'
     });
 
@@ -91,7 +104,7 @@ export class CategoriesComponent implements OnInit {
         return;
       }
 
-      if (typeof (result) === 'string') { // нажали сохранить
+      if (result as string) { // нажали сохранить
         category.title = result as string;
 
         this.updateCategory.emit(category); // вызываем внешний обработчик
@@ -100,11 +113,13 @@ export class CategoriesComponent implements OnInit {
     });
   }
 
-
   // диалоговое окно для добавления категории
-  public openAddDialog() {
+  public openAddDialog(): void {
 
-    const dialogRef = this.dialog.open(EditCategoryDialogComponent, {data: ['', 'Добавление категории', OperType.ADD], width: '400px'});
+    const dialogRef = this.dialog.open(EditCategoryDialogComponent, {
+      data: ['', 'Добавление категории', OperType.ADD],
+      width: '400px'
+    });
 
     dialogRef.afterClosed().subscribe(result => {
       if (result) {
@@ -113,17 +128,17 @@ export class CategoriesComponent implements OnInit {
     });
   }
 
-
   // поиск категории
-  public search() {
+  public search(): void {
 
 
-    if (this.searchCategoryTitle == null ) {
+    if (this.searchCategoryTitle == null) {
       return;
     }
 
     this.searchCategory.emit(this.searchCategoryTitle);
 
   }
+
 
 }
