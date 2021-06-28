@@ -24,6 +24,9 @@ export class CategoriesComponent implements OnInit {
     this.selectedCategoryMap = categoryMap;
   }
 
+  // кол-во невыполненных задач всего
+  @Input()
+  uncompletedTotal: number;
 
 
 

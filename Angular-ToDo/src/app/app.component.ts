@@ -24,7 +24,7 @@ export class AppComponent implements OnInit {
   public totalTasksCountInCategory: number;
   public completedCountInCategory: number;
   public uncompletedCountInCategory: number;
-  private uncompletedTotalTasksCount: number;
+  public uncompletedTotalTasksCount: number;
 
   // показать/скрыть статистику
   public showStat = true;
