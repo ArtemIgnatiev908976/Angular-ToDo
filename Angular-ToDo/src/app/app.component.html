@@ -1,17 +1,27 @@
 <div class="wrapper ">
 
-  <app-categories
-    (selectCategory)="onSelectCategory($event)"
-    (deleteCategory)="onDeleteCategory($event)"
-    (updateCategory)="onUpdateCategory($event)"
-    (addCategory)="onAddCategory($event)"
-    (searchCategory)="onSearchCategory($event)"
-    [categoryMap]="categoryMap"
-    [uncompletedTotal]="uncompletedTotalTasksCount"
+
+  <div class="sidebar"
+       data-color="purple"
+       data-step="1"
+       data-intro="Фильтрация задач, добавление/удаление/редактирование категорий"
+       data-position='right'
+  >
+
+    <app-categories
+      (selectCategory)="onSelectCategory($event)"
+      (deleteCategory)="onDeleteCategory($event)"
+      (updateCategory)="onUpdateCategory($event)"
+      (addCategory)="onAddCategory($event)"
+      (searchCategory)="onSearchCategory($event)"
+      [categoryMap]="categoryMap"
+      [uncompletedTotal]="uncompletedTotalTasksCount"
 
 
-    [selectedCategory]="selectedCategory"
-    [categories]="categories"></app-categories>
+      [selectedCategory]="selectedCategory"
+      [categories]="categories"></app-categories>
+
+  </div>
 
 
   <div class="main-panel">
@@ -30,20 +40,25 @@
     </nav>
 
     <div class="content">
-      <div class="container-fluid">
+      <div class="container-fluid"  >
 
+        <div data-step="2"
+             data-intro="Список всех задач cо статистикой"
+             data-position='top'>
+          <!-- статистика -->
+          <app-stat
+            [completeTasksInCategory]="completedCountInCategory"
+            [showStat]="showStat"
+            [totalTasksInCategory]="totalTasksCountInCategory"
+            [uncompleteTasksInCategory]="uncompletedCountInCategory"
+          ></app-stat>
 
-        <!-- статистика -->
-        <app-stat
-          [completeTasksInCategory]="completedCountInCategory"
-          [showStat]="showStat"
-          [totalTasksInCategory]="totalTasksCountInCategory"
-          [uncompleteTasksInCategory]="uncompletedCountInCategory"
-        ></app-stat>
+        </div>
 
-        <div class="row">
+        <div class="row" >
 
-          <div class="col-12">
+          <div class="col-12"
+          >
 
             <app-tasks
               (updateTask)="onUpdateTask($event)"
