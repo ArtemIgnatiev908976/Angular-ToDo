@@ -43,6 +43,13 @@ export class AppComponent implements OnInit {
   private statusFilter: boolean;
 
 
+  // параметры бокового меню с категориями
+  public menuOpened // открыть-закрыть
+  public menuMode // тип выдвижения (поверх, с толканием и пр.)
+  public menuPosition // сторона
+  public showBackdrop // показывать фоновое затемнение или нет
+
+
   constructor(
     private dataHandler: DataHandlerService, // фасад для работы с данными
     private introService: IntroService //вводная справочная информаия с выделением обоастей
@@ -277,5 +284,30 @@ export class AppComponent implements OnInit {
   }
 
 
+
+
+
+
+
+  // если закрыли меню любым способом - ставим значение false
+  public onClosedMenu() {
+    this.menuOpened = false;
+  }
+
+  // параметры меню
+  public setMenuValues() {
+    this.menuPosition = 'left'; // расположение слева
+    this.menuOpened = true; // меню сразу будет открыто по-умолчанию
+    this.menuMode = 'push'; // будет "толкать" основной контент, а не закрывать его
+    this.showBackdrop = true; // показывать темный фон или нет (нужно больше для мобильной версии)
+
+  }
+
+
+
+  // показать-скрыть меню
+  public toggleMenu() {
+    this.menuOpened = !this.menuOpened;
+  }
 
 }
