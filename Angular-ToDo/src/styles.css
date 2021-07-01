@@ -3,117 +3,42 @@
 @import '~@angular/material/prebuilt-themes/deeppurple-amber.css';
 @import "~bootstrap-css-only/css/bootstrap.min.css";
 @import "~intro.js/minified/introjs.min.css";
-
-
 .not-found {
-  margin-top: 30px;
+  margin-top : 30px;
   font-size: 20px;
-  color: rgba(74, 74, 74, 0.98);
+  color: rgba(74,74,74,0.98);
   text-align: center;
-
 }
 
-.pointer {
+.pointer{
   cursor: pointer;
 }
 
-.size25 {
-  font-size: 25px !important;
+.size25{
+  font-size: 30px !important;
 }
-
-.mat-form-field {
+.mat-form-field{
   width: 100%;
 }
 
-.mat-dialog-container {
+.mat-dialog-container{
   padding: 40px !important;
 }
-
-.red {
+.red{
   color: red;
 }
-
-.link {
+.link{
   text-decoration: underline;
-  cursor: pointer;
+  cursor: pointer
 }
-
 .line {
   border-bottom: 1px solid #dadada;
-  padding-top: 20px;
+  padding-top: 20px
+}
+.main-panel > .content{
+  margin-top: 30px !important;
 }
 
-.gray {
-  color: #8f8f8f;
-}
-
-
-app-header {
+app-header{
   width: 100%;
-}
-
-.ng-sidebar {
-  box-shadow: 0 0 13px rgba(0, 0, 0, 0.4);
-}
-
-.main-panel > .content {
-  margin-top: 30px;
-  background-color: transparent !important;
-}
-
-/*side bar*/
-
-#sidebar-wrapper {
-  min-height: 100vh;
-  margin-left: -15rem;
-  -webkit-transition: margin .25s ease-out;
-  -moz-transition: margin .25s ease-out;
-  -o-transition: margin .25s ease-out;
-  transition: margin .25s ease-out;
-}
-
-#sidebar-wrapper .sidebar-heading {
-  padding: 0.875rem 1.25rem;
-  font-size: 1.2rem;
-}
-
-#sidebar-wrapper .list-group {
-  width: 15rem;
-}
-
-#page-content-wrapper {
-  min-width: 100vw;
-}
-
-#wrapper.toggled #sidebar-wrapper {
-  margin-left: 0;
-}
-
-@media (min-width: 768px) {
-  #sidebar-wrapper {
-    margin-left: 0;
-  }
-
-  #page-content-wrapper {
-    min-width: 0;
-    width: 100%;
-  }
-  .show
-  {
-    margin-left: 0!important;
-  }
-  .hide
-  {
-    margin-left: -15rem!important;
-  }
-}
-@media (max-width: 767px) {
-  .show
-  {
-    margin-left: -15rem!important;
-  }
-  .hide
-  {
-    margin-left: -0!important;
-  }
 }
